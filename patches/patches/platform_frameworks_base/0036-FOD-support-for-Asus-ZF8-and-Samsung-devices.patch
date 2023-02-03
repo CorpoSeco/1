@@ -35,7 +35,7 @@ index 98f8aa11..e5c5ae40 100644
  
      <!-- The radius of the enrollment progress bar, in dp -->
      <integer name="config_udfpsEnrollProgressBar" translatable="false">
--        280
+-        70
 +        50
      </integer>
  
@@ -210,7 +210,7 @@ index b8efb52c..42c43fcf 100644
          isDisplayConfigured = false
          animationViewController?.onDisplayUnconfigured()
          mUdfpsDisplayMode?.disable(null /* onDisabled */)
-+        
++ 
 +        if (hasAsusGhbm) {
 +            fodFileObserver = object: FileObserver(asusGhbmOnAchieved, FileObserver.MODIFY) {
 +                override fun onEvent(event: Int, path: String): Unit {
