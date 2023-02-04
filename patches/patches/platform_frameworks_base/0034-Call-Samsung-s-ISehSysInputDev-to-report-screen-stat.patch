@@ -14,10 +14,10 @@ diff --git a/services/core/Android.bp b/services/core/Android.bp
 index 89c8ca567dd9..34a4579855ef 100644
 --- a/services/core/Android.bp
 +++ b/services/core/Android.bp
-@@ -173,6 +173,7 @@ java_library_static {
-         "overlayable_policy_aidl-java",
-         "SurfaceFlingerProperties",
-         "com.android.sysprop.watchdog",
+@@ -182,6 +182,7 @@ java_library_static {
+         "kotlin-stdlib",
+         "kotlinx_coroutines_android",
+         "kotlinx_coroutines",
 +        "vendor.samsung.hardware.sysinput-V1.2-java", // HIDL
      ],
      javac_shard_size: 50,
@@ -96,5 +96,5 @@ index 2a219289cf10..29f653f0edd4 100644
                          // have a sidekick available, tell it now that it can take control.
                          if (Display.isSuspendedState(state) && state != Display.STATE_OFF
 -- 
-2.25.1
+2.34.1
 
