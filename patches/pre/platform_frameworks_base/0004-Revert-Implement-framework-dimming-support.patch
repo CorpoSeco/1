@@ -1,7 +1,7 @@
 From ba88ae01a04e55e3062f802305fcb69ba4f9e0a5 Mon Sep 17 00:00:00 2001
 From: TheAtt1la <alittauwu@gmail.com>
 Date: Mon, 30 Jan 2023 18:05:47 +0000
-Subject: [PATCH 3/3] Revert Implement framework dimming support
+Subject: [PATCH 4/4] Revert Implement framework dimming support
 
 ---
  packages/SystemUI/res/values/cr_config.xml    | 25 ---------
