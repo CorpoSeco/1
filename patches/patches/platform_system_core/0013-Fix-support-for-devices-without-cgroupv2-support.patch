@@ -16,20 +16,20 @@ index bd704cf8e..188b042d9 100644
 --- a/init/service.cpp
 +++ b/init/service.cpp
 @@ -660,11 +660,15 @@ Result<void> Service::Start() {
-                       limit_percent_ != -1 || !limit_propert>
-      errno = -createProcessGroup(proc_attr_.uid, pid_, use_m>
+                       limit_percent_ != -1 || !limit_property_.empty();
+      errno = -createProcessGroup(proc_attr_.uid, pid_, use_memcg);
       if (errno != 0) {
-+         PLOG(ERROR) << "createProcessGroup(" << proc_attr_.>
++         PLOG(ERROR) << "createProcessGroup(" << proc_attr_.uid << ", " << pid_ <<  ") failed for service '" << name_ << "'";
 +
 +#if 0
-         if (char byte = 0; write((*pipefd)[1], &byte, 1) < 0>
-             return ErrnoError() << "sending notification fai>
+         if (char byte = 0; write((*pipefd)[1], &byte, 1) < 0) {
+             return ErrnoError() << "sending notification failed";
          }
-         return Error() << "createProcessGroup(" << proc_attr>
-                        << ") failed for service '" << name_ >
+         return Error() << "createProcessGroup(" << proc_attr_.uid << ", " << pid_
+                        << ") failed for service '" << name_ << "'";
 +#endif
      }
-
+ 
          if (use_memcg) {
---
+-- 
 2.34.1
