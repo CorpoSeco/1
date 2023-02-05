@@ -7,7 +7,7 @@ Thanks Asus for providing a free device to make this support
 And thanks @davigamer987 for donating enough to get a Samsung FOD device
 to make this
 ---
- packages/SystemUI/Android.bp                  |   1 +
+  packages/SystemUI/Android.bp                  |   1 +
  packages/SystemUI/res/values/config.xml       |   2 +-
  .../biometrics/UdfpsControllerOverlay.kt      |   7 +-
  .../android/systemui/biometrics/UdfpsView.kt  | 138 ++++++++++
@@ -16,10 +16,10 @@ to make this
  6 files changed, 388 insertions(+), 5 deletions(-)
 
 diff --git a/packages/SystemUI/Android.bp b/packages/SystemUI/Android.bp
-index 3d25c49e..9fae1593 100644
+index 4bbebd6d274d..9ad8482e732d 100644
 --- a/packages/SystemUI/Android.bp
 +++ b/packages/SystemUI/Android.bp
-@@ -133,6 +133,7 @@ android_library {
+@@ -131,6 +131,7 @@ android_library {
          "android.hardware.power-V3-java",
          "AndroidSystemBlur-platform",
  	"googlebattery-lib",
@@ -41,7 +41,7 @@ index 1d310c132ccf..dce3c95832eb 100644
  
      <!-- The time (in ms) needed to trigger the lock icon view's long-press affordance -->
 diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
-index 1c62f8a4e508..7b2713bf3419 100644
+index 09a7fb338553..84de3d8872f6 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
 @@ -102,7 +102,9 @@ class UdfpsControllerOverlay(
@@ -66,7 +66,7 @@ index 1c62f8a4e508..7b2713bf3419 100644
                          if (accessibilityManager.isTouchExplorationEnabled) {
                              setOnHoverListener { v, event -> onTouch(v, event, true) }
 diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
-index af68e43e3a74..f5469bf90d7f 100644
+index a15456d46897..7633cf4538d5 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 @@ -19,17 +19,26 @@ import android.content.Context
@@ -160,7 +160,7 @@ index af68e43e3a74..f5469bf90d7f 100644
      /** Debug message. */
      var debugMessage: String? = null
          set(value) {
-@@ -140,16 +199,95 @@ class UdfpsView(
+@@ -140,15 +199,95 @@ class UdfpsView(
              !(animationViewController?.shouldPauseAuth() ?: false)
      }
  
@@ -182,10 +182,9 @@ index af68e43e3a74..f5469bf90d7f 100644
      fun configureDisplay(onDisplayConfigured: Runnable) {
          isDisplayConfigured = true
          animationViewController?.onDisplayConfiguring()
- 
          mUdfpsDisplayMode?.enable(onDisplayConfigured)
 +
-+        mySurfaceView.setVisibility(VISIBLE)
++    mySurfaceView.setVisibility(VISIBLE)
 +        Log.d("PHH", "setting surface visible!")
 +
 +        val brightness = File("/sys/class/backlight/panel0-backlight/brightness").readText().toDouble()
@@ -257,7 +256,7 @@ index af68e43e3a74..f5469bf90d7f 100644
      }
  }
 diff --git a/services/core/Android.bp b/services/core/Android.bp
-index cf208bb0..6598bba2 100644
+index be951621b1c2..6598bba270e0 100644
 --- a/services/core/Android.bp
 +++ b/services/core/Android.bp
 @@ -182,7 +182,12 @@ java_library_static {
@@ -275,10 +274,10 @@ index cf208bb0..6598bba2 100644
      javac_shard_size: 50,
  }
 diff --git a/services/core/java/com/android/server/biometrics/AuthService.java b/services/core/java/com/android/server/biometrics/AuthService.java
-index fffb4458..0d0ae9e3 100644
+index 48293576519b..b47b47c41f76 100644
 --- a/services/core/java/com/android/server/biometrics/AuthService.java
 +++ b/services/core/java/com/android/server/biometrics/AuthService.java
-@@ -77,6 +77,22 @@ import java.util.ArrayList;
+@@ -75,6 +75,22 @@ import java.util.ArrayList;
  import java.util.Arrays;
  import java.util.List;
  
@@ -301,7 +300,7 @@ index fffb4458..0d0ae9e3 100644
  /**
   * System service that provides an interface for authenticating with biometrics and
   * PIN/pattern/password to BiometricPrompt and lock screen.
-@@ -95,6 +111,9 @@ public class AuthService extends SystemService {
+@@ -93,6 +109,9 @@ public class AuthService extends SystemService {
      @VisibleForTesting
      final IAuthService.Stub mImpl;
  
@@ -311,7 +310,7 @@ index fffb4458..0d0ae9e3 100644
      /**
       * Class for injecting dependencies into AuthService.
       * TODO(b/141025588): Replace with a dependency injection framework (e.g. Guice, Dagger).
-@@ -652,6 +671,72 @@ public class AuthService extends SystemService {
+@@ -650,6 +669,72 @@ public class AuthService extends SystemService {
          registerAuthenticators(hidlConfigs);
  
          mInjector.publishBinderService(this, mImpl);
@@ -384,7 +383,7 @@ index fffb4458..0d0ae9e3 100644
      }
  
      /**
-@@ -775,18 +860,104 @@ public class AuthService extends SystemService {
+@@ -773,14 +858,100 @@ public class AuthService extends SystemService {
                  ? modality : (modality & ~BiometricAuthenticator.TYPE_CREDENTIAL);
      }
  
@@ -476,10 +475,6 @@ index fffb4458..0d0ae9e3 100644
 +        int[] udfpsProps = getContext().getResources().getIntArray(
                  com.android.internal.R.array.config_udfps_sensor_props);
  
-         // Non-empty workaroundLocations indicates that the sensor is SFPS.
-         final List<SensorLocationInternal> workaroundLocations =
-                 getWorkaroundSensorProps(getContext());
- 
 -        final boolean isUdfps = !ArrayUtils.isEmpty(udfpsProps);
 +        boolean isUdfps = !ArrayUtils.isEmpty(udfpsProps);
 +        if(!isUdfps) udfpsProps = dynamicUdfpsProps();
@@ -491,7 +486,7 @@ index fffb4458..0d0ae9e3 100644
  
          // config_is_powerbutton_fps indicates whether device has a power button fingerprint sensor.
          final boolean isPowerbuttonFps = getContext().getResources().getBoolean(
-@@ -854,4 +1025,67 @@ public class AuthService extends SystemService {
+@@ -842,4 +1013,67 @@ public class AuthService extends SystemService {
                  componentInfo, resetLockoutRequiresHardwareAuthToken,
                  resetLockoutRequiresChallenge);
      }
@@ -560,5 +555,4 @@ index fffb4458..0d0ae9e3 100644
 +    }
  }
 -- 
-2.25.1
-
+2.34.1
