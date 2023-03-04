@@ -1,7 +1,7 @@
 From cbaea9cca3caa81681b6459f2c44d3596b827620 Mon Sep 17 00:00:00 2001
 From: TheAtt1la <alittauwu@gmail.com>
 Date: Sat, 4 Feb 2023 18:02:46 +0100
-Subject: [PATCH 3/4] revert  AuthService: Add support for workaround side fps props
+Subject: [PATCH 3/5] revert  AuthService: Add support for workaround side fps props
 
 ---
  .../com/android/server/biometrics/AuthService.java   | 12 ------------
