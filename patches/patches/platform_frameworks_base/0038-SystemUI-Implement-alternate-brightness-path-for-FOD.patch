@@ -12,7 +12,7 @@ index d591cc809129..d2e98c181260 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 @@ -222,8 +222,19 @@ Log.d("PHH", "Surface destroyed!")
-         mySurfaceView.setVisibility(VISIBLE)
+     mySurfaceView.setVisibility(VISIBLE)
          Log.d("PHH", "setting surface visible!")
  
 -        val brightness = File("/sys/class/backlight/panel0-backlight/brightness").readText().toDouble()
