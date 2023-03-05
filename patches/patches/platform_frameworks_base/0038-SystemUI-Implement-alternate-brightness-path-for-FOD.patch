@@ -11,7 +11,7 @@ diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt 
 index d591cc809129..d2e98c181260 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
-@@ -222,8 +222,19 @@ Log.d("PHH", "Surface destroyed!")
+-222,8 +222,19 @@ Log.d("PHH", "Surface destroyed!")
          mySurfaceView.setVisibility(VISIBLE)
          Log.d("PHH", "setting surface visible!")
  
@@ -34,5 +34,5 @@ index d591cc809129..d2e98c181260 100644
          // Assume HBM is max brightness
          val dim = 1.0 - Math.pow( (brightness / maxBrightness), 1/2.3);
 -- 
-2.25.1
+2.34.1
 
