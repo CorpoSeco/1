@@ -1,7 +1,7 @@
 From c05651782358638ace34956b145d84a3e9bbce1c Mon Sep 17 00:00:00 2001
 From: Pierre-Hugues Husson <phh@phh.me>
 Date: Sun, 18 Dec 2022 18:20:40 -0500
-Subject: [PATCH 36/37] FOD support for Asus ZF8 and Samsung devices
+Subject: [PATCH 36/38] FOD support for Asus ZF8 and Samsung devices
 
 Thanks Asus for providing a free device to make this support
 And thanks @davigamer987 for donating enough to get a Samsung FOD device
@@ -16,19 +16,19 @@ to make this
  6 files changed, 388 insertions(+), 5 deletions(-)
 
 diff --git a/packages/SystemUI/Android.bp b/packages/SystemUI/Android.bp
-index 4bbebd6d274d..9ad8482e732d 100644
+index f30f4621dde6..beabcbdecae7 100644
 --- a/packages/SystemUI/Android.bp
 +++ b/packages/SystemUI/Android.bp
-@@ -131,6 +131,7 @@ android_library {
+@@ -130,6 +130,7 @@ android_library {
+         "android.hardware.power.stats-V1-java",
          "android.hardware.power-V3-java",
-         "AndroidSystemBlur-platform",
  	"googlebattery-lib",
 +        "vendor.goodix.hardware.biometrics.fingerprint-V2.1-java",
      ],
      manifest: "AndroidManifest.xml",
      additional_manifests: ["LineageManifest.xml"],
 diff --git a/packages/SystemUI/res/values/config.xml b/packages/SystemUI/res/values/config.xml
-index 1d310c132ccf..dce3c95832eb 100644
+index eac84e30937c..8fa11e7d15aa 100644
 --- a/packages/SystemUI/res/values/config.xml
 +++ b/packages/SystemUI/res/values/config.xml
 @@ -586,7 +586,7 @@
@@ -41,7 +41,7 @@ index 1d310c132ccf..dce3c95832eb 100644
  
      <!-- The time (in ms) needed to trigger the lock icon view's long-press affordance -->
 diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
-index 09a7fb338553..84de3d8872f6 100644
+index 09a7fb338553..4b89557fb9ea 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsControllerOverlay.kt
 @@ -102,7 +102,9 @@ class UdfpsControllerOverlay(
@@ -66,7 +66,7 @@ index 09a7fb338553..84de3d8872f6 100644
                          if (accessibilityManager.isTouchExplorationEnabled) {
                              setOnHoverListener { v, event -> onTouch(v, event, true) }
 diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
-index a15456d46897..7633cf4538d5 100644
+index a15456d46897..72f7a71851de 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsView.kt
 @@ -19,17 +19,26 @@ import android.content.Context
@@ -160,7 +160,7 @@ index a15456d46897..7633cf4538d5 100644
      /** Debug message. */
      var debugMessage: String? = null
          set(value) {
-@@ -140,15 +199,95 @@ class UdfpsView(
+@@ -140,15 +199,94 @@ class UdfpsView(
              !(animationViewController?.shouldPauseAuth() ?: false)
      }
  
@@ -210,7 +210,7 @@ index a15456d46897..7633cf4538d5 100644
          animationViewController?.onDisplayUnconfigured()
          mUdfpsDisplayMode?.disable(null /* onDisabled */)
 +
-+        if (hasAsusGhbm) {
++    if (hasAsusGhbm) {
 +            fodFileObserver = object: FileObserver(asusGhbmOnAchieved, FileObserver.MODIFY) {
 +                override fun onEvent(event: Int, path: String): Unit {
 +                    Log.d("PHH-Enroll", "Asus ghbm event")
@@ -274,7 +274,7 @@ index be951621b1c2..6598bba270e0 100644
      javac_shard_size: 50,
  }
 diff --git a/services/core/java/com/android/server/biometrics/AuthService.java b/services/core/java/com/android/server/biometrics/AuthService.java
-index 48293576519b..b47b47c41f76 100644
+index 6fbc3c66c1bc..748152aa7c97 100644
 --- a/services/core/java/com/android/server/biometrics/AuthService.java
 +++ b/services/core/java/com/android/server/biometrics/AuthService.java
 @@ -75,6 +75,22 @@ import java.util.ArrayList;
@@ -556,3 +556,5 @@ index 48293576519b..b47b47c41f76 100644
  }
 -- 
 2.34.1
+
+
